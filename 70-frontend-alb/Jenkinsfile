@@ -32,7 +32,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws_creds', region: 'us-east-1'){
                         sh """
-                            cd 10-sg
+                            cd 70-frontend-alb
                             terraform init -reconfigure
                         """
                     }
@@ -45,7 +45,7 @@ pipeline {
                 script{
                     withAWS(credentials: 'aws_creds', region: 'us-east-1'){
                         sh """
-                            cd 10-sg
+                            cd 70-frontend-alb
                             terraform plan
                         """
                     }
@@ -58,59 +58,13 @@ pipeline {
                 script{
                     withAWS(credentials: 'aws_creds', region: 'us-east-1') {
                         sh """
-                            cd 10-sg
+                            cd 70-frontend-alb
                             terraform apply -auto-approve
                         """
                     }
                 }
             }
         }
-
-        //Triggering the DownStream Job
-        stage('Trigger Bastion EKS ACM ALB'){
-            parallel{
-                stage('Trigger Bastion') {
-                    steps{
-                        script{
-                            build job: '20-bastion',
-                            propagate: false,
-                            wait: false
-                        }
-                    }
-
-                }
-                stage('Trigger EKS') {
-                    steps{
-                        script{
-                            build job: '80-eks',
-                            propagate: false,
-                            wait: false
-                        }
-                    }
-
-                }
-                stage('Trigger ACM') {
-                    steps{
-                        script{
-                            build job: '60-acm',
-                            propagate: false,
-                            wait: false
-                        }
-                    }
-
-                }
-            }
-        }
-        stage('Trigger ALB') {
-                    steps{
-                        script{
-                            build job: '70-frontend-alb',
-                            propagate: false,
-                            wait: false
-                        }
-                    }
-
-                }
         
     }
 
