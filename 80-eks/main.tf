@@ -56,9 +56,9 @@ module "eks" {
             ami_type = "AL2023_x86_64_STANDARD" # user name is ec2-user
             instance_type = ["m5.xlarge"]
 
-            min_size = 2
+            min_size = 1
             max_sixe = 10
-            desired_size = 2
+            desired_size = 1
 
             iam_role_additional_policies = {
                 AmazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
@@ -66,13 +66,13 @@ module "eks" {
                 AmazonEKSLoad = "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy"
             }
 
-            taints = {
+           /*  taints = {
                 upgrade = {
                     key = "upgrade"
                     value = "true"
-                    effect = "NO_SCHEDULE"
+                    effect = "NO_SCHEDULE-"
                 }
-            }
+            } */
 
         }
 
