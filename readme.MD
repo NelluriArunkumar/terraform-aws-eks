@@ -14,7 +14,7 @@ This repository provisions a complete AWS cloud infrastructure for hosting a pro
     ├── 60-acm/ # SSL Certificates for secure ingress via ACM
     ├── 70-frontend-alb/ # Application Load Balancer for public ingress
     ├── 80-eks/ # Amazon EKS cluster, managed node groups, add‑ons
-    └── README.md # Documentation**
+    └── README.md # Documentation **
 
 #### 🏗️ Architecture Summary
 
